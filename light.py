@@ -276,18 +276,18 @@ class LIFXLight(LIFXEntity, LightEntity):
                     await self.set_power(False)
                 elif power_on:
                     await self.set_power(True, duration=fade)
-                    await self.set64_effect(**kwargs)
+                    # await self.set64_effect(**kwargs)
             else:
                 if power_on:
-                    await self.set_power(True)
+                    # await self.set_power(True)
                     await self.set64_effect(**kwargs)
                 elif power_off:
                     await self.set_power(False, duration=fade)  
             # Avoid state ping-pong by holding off updates as the state settles
-            await asyncio.sleep(LIFX_STATE_SETTLE_DELAY)
+            await asyncio.sleep(0.6)
 
             # Update when the transition starts and ends
-            await self.update_during_transition(fade)                    
+            await self.update_during_transition(1000)                    
             return          
             
 

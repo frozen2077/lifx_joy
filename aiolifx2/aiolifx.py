@@ -1641,26 +1641,26 @@ class Light(Device):
         
         # Exciting theme
         default_tile_palette = [
-            (0, 65535, 65535, 3500),
-            (7282, 65535, 65535, 3500),
-            (10923, 65535, 65535, 3500),
-            (22209, 65535, 65535, 3500),
-            (43509, 65535, 65535, 3500),
-            (49334, 65535, 65535, 3500),
-            (53521, 65535, 65535, 3500),
+            [0, 65535, 65535, 3500],
+            [7282, 65535, 65535, 3500],
+            [10923, 65535, 65535, 3500],
+            [22209, 65535, 65535, 3500],
+            [43509, 65535, 65535, 3500],
+            [49334, 65535, 65535, 3500],
+            [53521, 65535, 65535, 3500],
         ]
         
-        if palette is None:
-            return
-        
-        if palette == []:
+        if palette is None or palette == []:
             palette = default_tile_palette           
         if len(palette) > 64:
             palette = palette[:64]
         palette_count = len(palette)
 
-        # _LOGGER.warning(f"$$$$$$ Before {palette}, {brightness}")
+
+        # palette = [list(item) for item in palette]
+        _LOGGER.debug(f"$$$$$$ Before {palette}, {brightness}")
         array = np.array(palette)
+        _LOGGER.debug(f"$$$$$$ Array {array}")
         scale = brightness / array[:,2].mean()
         array[:,2] =  (array[:,2] * scale).clip(0, 65535).astype(int)
 

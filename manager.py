@@ -10,6 +10,9 @@ from typing import Any
 import aiolifx_effects
 from aiolifx_themes.themes import Theme, ThemeLibrary
 import voluptuous as vol
+import logging
+
+_LOGGER = logging.getLogger(__name__)   
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
@@ -210,7 +213,7 @@ class LIFXManager:
         self.hass = hass
         self.effects_conductor = aiolifx_effects.Conductor(hass.loop)
         self.entry_id_to_entity_id: dict[str, str] = {}
-        self.palette = []
+        self.palette = None
 
     @callback
     def async_unload(self) -> None:
@@ -359,20 +362,25 @@ class LIFXManager:
             palette = kwargs.get(ATTR_PALETTE, None)
             self.palette = palette
             
-            if palette is not None:
+            _LOGGER.debug(f"$$$$$$ MAnager Palette Before{palette}")
+            
+            if palette is not None and palette != []:
                 theme = Theme()
                 for hsbk in palette:
                     theme.add_hsbk(hsbk[0], hsbk[1], hsbk[2], hsbk[3])
+                theme = theme.colors
             else:
                 theme = ThemeLibrary().get_theme(theme_name)
-                exp = [sublist for sublist in theme.colors for _ in range(5)]
-
+                theme = [sublist for sublist in theme.colors for _ in range(5)]
+                
+            _LOGGER.debug(f"$$$$$$ MAnager Palette After{theme}")
+            
             await asyncio.gather(
                 *(       
                     coordinator.async_set_tile64(
                         effect=EFFECT_SET64,
-                        palette=exp,
                         brightness=kwargs.get("brightness", 128),
+                        palette=theme,
                         power_on=kwargs.get(ATTR_POWER_ON, True),
                     )
                     for coordinator in coordinators
