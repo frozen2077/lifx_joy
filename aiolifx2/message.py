@@ -4,6 +4,9 @@
 import struct
 import binascii
 import sys
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 BROADCAST_MAC = "00:00:00:00:00:00"
 BROADCAST_SOURCE_ID = 0
@@ -65,6 +68,8 @@ class Message(object):
         self.payload = self.get_payload()
         self.header = self.get_header()
         packed_message = self.header + self.payload
+        hex_dump = ' '.join(f'{byte:02x}' for byte in packed_message)
+        _LOGGER.debug(f"<<<<<\nFinal Packed Message\n{hex_dump}\n")
         return packed_message
 
     # frame (and thus header) needs to be generated after payload (for size field)

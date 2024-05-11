@@ -13,6 +13,9 @@ from enum import Enum
 import random
 import sys
 import struct
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 ##### DEVICE MESSAGES #####
 
@@ -1810,12 +1813,12 @@ class TileSet64(Message):
         )
 
     def get_payload(self):
-        tile_index = little_endian(bitstring.pack("int:8", 0))
-        length = little_endian(bitstring.pack("int:8", 1))
+        tile_index = little_endian(bitstring.pack("uint:8", 0))
+        length = little_endian(bitstring.pack("uint:8", 1))
         reserved6 = little_endian(bitstring.pack("int:8", 0))
-        x = little_endian(bitstring.pack("int:8", 0))
-        y = little_endian(bitstring.pack("int:8", 0))
-        width = little_endian(bitstring.pack("int:8", 5))        #The width of the square you're applying colors to. This should be 8 for the LIFX Tile and 5 for the LIFX Candle.
+        x = little_endian(bitstring.pack("uint:8", 0))
+        y = little_endian(bitstring.pack("uint:8", 0))
+        width = little_endian(bitstring.pack("uint:8", 5))        #The width of the square you're applying colors to. This should be 8 for the LIFX Tile and 5 for the LIFX Candle.
         duration = little_endian(bitstring.pack("uint:32", self.duration))
         payload = (
             tile_index
@@ -1831,7 +1834,12 @@ class TileSet64(Message):
             payload += b"".join(
                 little_endian(bitstring.pack("uint:16", field)) for field in color
             )
-        return payload
+        npayload = payload[:6] + payload[7:]
+        hex_dump = ' '.join(f'{byte:02x}' for byte in payload)
+        nhex_dump = ' '.join(f'{byte:02x}' for byte in npayload)
+        _LOGGER.debug(f"<<<<<\nPayload\n{hex_dump}\n")
+        _LOGGER.debug(f"<<<<<\nNPayload\n{nhex_dump}\n")
+        return npayload
 
 
 

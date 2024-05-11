@@ -6,6 +6,7 @@ import asyncio
 from collections.abc import Callable
 from datetime import timedelta
 from typing import Any
+import numpy as np
 
 import aiolifx_effects
 from aiolifx_themes.themes import Theme, ThemeLibrary
@@ -362,18 +363,22 @@ class LIFXManager:
             palette = kwargs.get(ATTR_PALETTE, None)
             self.palette = palette
             
-            _LOGGER.debug(f"$$$$$$ MAnager Palette Before{palette}")
+            _LOGGER.debug(f"$$$$$$ MAnager Palette Before{np.array(palette)}")
             
             if palette is not None and palette != []:
                 theme = Theme()
                 for hsbk in palette:
                     theme.add_hsbk(hsbk[0], hsbk[1], hsbk[2], hsbk[3])
                 theme = theme.colors
+                # array = np.array(palette)
+                # array[:,0] = array[:,0] * 45.6372
+                # array[:,1:3] = array[:,1:3] * 655.35
+                # theme = array.astype(int).tolist()
             else:
                 theme = ThemeLibrary().get_theme(theme_name)
                 theme = [sublist for sublist in theme.colors for _ in range(5)]
                 
-            _LOGGER.debug(f"$$$$$$ MAnager Palette After{theme}")
+            # _LOGGER.debug(f"$$$$$$ MAnager Palette After{np.array(theme)}")
             
             await asyncio.gather(
                 *(       

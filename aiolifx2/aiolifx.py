@@ -1656,16 +1656,17 @@ class Light(Device):
             palette = palette[:64]
         palette_count = len(palette)
 
-
         # palette = [list(item) for item in palette]
-        _LOGGER.debug(f"$$$$$$ Before {palette}, {brightness}")
+        
         array = np.array(palette)
-        _LOGGER.debug(f"$$$$$$ Array {array}")
+        
+        _LOGGER.debug(f"$ Before {array}")
+        
         scale = brightness / array[:,2].mean()
         array[:,2] =  (array[:,2] * scale).clip(0, 65535).astype(int)
-
         palette = array.tolist()
-        _LOGGER.debug(f"$$$$$$ After {palette}, {brightness}")
+        
+        _LOGGER.debug(f"$ After {np.array(palette)}, {brightness}")
         payload = {
             "duration": 3,
             "palette": palette,
