@@ -5,7 +5,7 @@ Welcome to the `lifx_joy` remix repository!
 This repo is a remix of [`Djelibeybi/aiolifx-themes`][1] and [`frawau/aiolifx`][2], with addtional features and improvements.
 
 ## Features
-Added theme support for matrix LIFX devices in Home Assistant.
+Added stationary theme support for matrix LIFX devices in Home Assistant.
 
 <img src="pic/1.jpg" width="200" alt="Alt text">
 
