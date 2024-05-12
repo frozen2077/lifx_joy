@@ -1664,6 +1664,7 @@ class Light(Device):
         
         scale = brightness / array[:,2].mean()
         array[:,2] =  (array[:,2] * scale).clip(0, 65535).astype(int)
+        array[0,2] = brightness
         palette = array.tolist()
         
         _LOGGER.debug(f"$ After {np.array(palette)}, {brightness}")

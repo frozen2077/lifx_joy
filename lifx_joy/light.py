@@ -153,6 +153,9 @@ class LIFXLight(LIFXEntity, LightEntity):
     def brightness(self) -> int:
         """Return the brightness of this light between 0..255."""
         fade = self.bulb.power_level / 65535
+        _LOGGER.debug(f">>>>>\n BUlb Color\n{self.bulb.color}")
+        # if self.effect == "effect_set64":
+        #     return max(convert_16_to_8(int(fade * self.bulb.color[HSBK_BRIGHTNESS])) * 3, 100)
         return convert_16_to_8(int(fade * self.bulb.color[HSBK_BRIGHTNESS]))
 
     @property
@@ -221,6 +224,7 @@ class LIFXLight(LIFXEntity, LightEntity):
         
         _LOGGER.debug(f">>>>> Set64 Effect {kwargs}, Current palette {array}")
         
+        
         await self.hass.services.async_call(
             DOMAIN,
             "effect_set64",
@@ -283,10 +287,7 @@ class LIFXLight(LIFXEntity, LightEntity):
                     await self.set64_effect(**kwargs)
                 elif power_off:
                     await self.set_power(False, duration=fade)  
-            # Avoid state ping-pong by holding off updates as the state settles
             await asyncio.sleep(0.6)
-
-            # Update when the transition starts and ends
             await self.update_during_transition(1000)                    
             return          
             

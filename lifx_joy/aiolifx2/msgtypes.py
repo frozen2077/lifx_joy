@@ -1837,8 +1837,8 @@ class TileSet64(Message):
         npayload = payload[:6] + payload[7:]
         hex_dump = ' '.join(f'{byte:02x}' for byte in payload)
         nhex_dump = ' '.join(f'{byte:02x}' for byte in npayload)
-        _LOGGER.debug(f"<<<<<\nPayload\n{hex_dump}\n")
-        _LOGGER.debug(f"<<<<<\nNPayload\n{nhex_dump}\n")
+        # _LOGGER.debug(f"<<<<<\nPayload\n{hex_dump}\n")
+        # _LOGGER.debug(f"<<<<<\nNPayload\n{nhex_dump}\n")
         return npayload
 
 

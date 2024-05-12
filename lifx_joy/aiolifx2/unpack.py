@@ -3,6 +3,9 @@
 
 from .msgtypes import *
 import binascii
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 
 # Creates a LIFX Message out of packed binary data
