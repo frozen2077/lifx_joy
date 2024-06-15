@@ -30,7 +30,6 @@ To get started with this remix, you can download the repository:
 
 ## Known issues
 - Only tested on Candle (Tiles should works too)
-- Theme "exciting etc..." won't save its state when adjusting brightness elsewhere except the call-service page
 
 [1]: https://github.com/Djelibeybi/aiolifx-themes
 [2]: https://github.com/frawau/aiolifx
