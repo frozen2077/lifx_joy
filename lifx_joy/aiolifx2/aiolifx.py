@@ -1630,7 +1630,7 @@ class Light(Device):
         )
         return self.effect
 
-    def set_tile64(self, palette, brightness=128, callb=None, rapid=False):
+    def set_tile64(self, palette, brightness=128, callb=None, duration=1000, rapid=False):
         """Convenience method to start or stop a firmware effect on matrix devices.
 
         A palette of up to 64 HSBK tuples can be provided for the MORPH effect, otherwise
@@ -1669,7 +1669,7 @@ class Light(Device):
         
         _LOGGER.debug(f"$ After {np.array(palette)}, {brightness}")
         payload = {
-            "duration": 3,
+            "duration": duration,
             "palette": palette,
         }
         if rapid:
@@ -1972,7 +1972,7 @@ class Light(Device):
         :returns: None
         :rtype: None
         """
-        response = self.req_with_resp(GetAccessPoint, StateAccessPoint, callb=callb)
+        # response = self.req_with_resp(GetAccessPoint, StateAccessPoint, callb=callb)
         return None
 
     def __str__(self):

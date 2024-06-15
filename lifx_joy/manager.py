@@ -363,7 +363,7 @@ class LIFXManager:
             palette = kwargs.get(ATTR_PALETTE, None)
             self.palette = palette
             
-            _LOGGER.debug(f"$$$$$$ MAnager Palette Before{np.array(palette)}")
+            _LOGGER.debug(f"Manager Palette Before{np.array(palette)}")
             
             if palette is not None and palette != []:
                 theme = Theme()

@@ -266,7 +266,7 @@ class LIFXLight(LIFXEntity, LightEntity):
         if ATTR_TRANSITION in kwargs:
             fade = int(kwargs[ATTR_TRANSITION] * 1000)
         else:
-            fade = 0
+            fade = 800
 
         # These are both False if ATTR_POWER is not set
         power_on = kwargs.get(ATTR_POWER, False)
